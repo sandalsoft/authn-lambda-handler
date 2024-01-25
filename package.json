@@ -1,0 +1,28 @@
+{
+  "name": "authn-lambda-handler",
+  "private": true,
+  "devDependencies": {
+    "@oclif/plugin-plugins": "^3.5.0",
+    "bun-types": "^0.7.0",
+    "jszip": "^3.10.1",
+    "oclif": "^3.6.5",
+    "prettier": "^2.8.2"
+  },
+  "dependencies": {
+    "@aws-sdk/client-datazone": "^3.496.0",
+    "aws4fetch": "^1.0.17"
+  },
+  "scripts": {
+    "clean": "rm -rf dist.zip dist",
+    "prebuild": "bun run clean",
+    "build:zip": "zip -r dist.zip dist",
+    "postbuild": "bun run build:zip",
+    "build": "bun build src/lambda.ts --outfile ./dist/handler.js",
+    "build-layer": "bun scripts/build-layer.ts",
+    "publish-layer": "bun scripts/publish-layer.ts",
+    "deploy:upload-function": "aws lambda update-function-code --profile hasura --region us-east-2 --function-name authn-webhook --zip-file fileb://dist.zip",
+    "predeploy": "bun run build && bun run build:zip",
+    "deploy": "bun run deploy:upload-function ",
+    "format": "prettier --write ."
+  }
+}

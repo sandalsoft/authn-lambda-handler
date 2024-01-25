@@ -1,0 +1,6 @@
+.DS_Store
+.serverless/
+node_modules/
+dist/
+bun-lambda-layer/
+*.zip
